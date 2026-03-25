@@ -3,10 +3,10 @@ import java.util.UUID;
 
 public record PageContent(
         UUID uuid,
-        String websiteUrl,
-        String domainUrl,
-        String websiteTitle,
-        String websiteContent,
+        String pageUrl,
+        String domain,
+        String pageTitle,
+        String pageContent,
         String lang,
         Instant requestTime
 ) {
