@@ -20,7 +20,7 @@ public class CrawlerController {
         this.crawlPipeline = crawlPipeline;
     }
 
-    @PostMapping("/crawl")
+    @PostMapping("/crawls")
     public ResponseEntity<?> crawl(@RequestBody CrawlRequest request) {
         try {
             PageContent result = crawlPipeline.execute(request.url());
@@ -30,7 +30,7 @@ public class CrawlerController {
         }
     }
 
-    @GetMapping("/crawl/{uuid}")
+    @GetMapping("/crawls/{uuid}")
     public ResponseEntity<?> crawl(@PathVariable("uuid") String uuid) {
 
         try {
@@ -48,12 +48,38 @@ public class CrawlerController {
 
     }
 
-    @GetMapping("/crawl")
+    @GetMapping("/crawls")
     public ResponseEntity<?> getAll() {
         try {
             List<PageContent> results = crawlPipeline.getAll();
             return ResponseEntity.ok(results);
         } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(Map.of("error", e.getMessage()));
+        }
+    }
+
+    @DeleteMapping("/crawls/{uuid}")
+    public ResponseEntity<?> delete(@PathVariable("uuid") String uuid) {
+
+        try {
+            UUID uuidObj = UUID.fromString(uuid);
+            PageContent result = crawlPipeline.delete(uuidObj);
+
+            if (result == null) {
+                return ResponseEntity.notFound().build();
+            }
+            return ResponseEntity.ok(result);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(Map.of("error", "UUID invalido"));
+        }
+    }
+
+    @DeleteMapping("/crawls")
+    public ResponseEntity<?> deleteAll() {
+        try {
+            crawlPipeline.deleteAll();
+            return  ResponseEntity.noContent().build();
+        } catch (Exception e) {
             return ResponseEntity.badRequest().body(Map.of("error", e.getMessage()));
         }
     }

@@ -57,6 +57,40 @@ public class JsonStorage {
         }
     }
 
+    public PageContent delete(UUID uuid) {
+        Path filePath = index.get(uuid);
+
+        if(filePath == null) return null;
+
+        try {
+            String json = Files.readString(filePath);
+            Files.deleteIfExists(filePath);
+            index.remove(uuid);
+            saveIndex();
+            return gson.fromJson(json, PageContent.class);
+        } catch (IOException e) {
+            System.err.println("Erro ao deletar: " + filePath);
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public boolean deleteAll() {
+        for (Path filePath : index.values()) {
+            try {
+                Files.deleteIfExists(filePath);
+            } catch (IOException e) {
+                System.err.println("Erro ao deletar: " + filePath);
+                e.printStackTrace();
+            }
+        }
+
+        index.clear();
+        saveIndex();
+        return true;
+    }
+
+
     public List<PageContent> getAll() {
         List<PageContent> results = new ArrayList<>();
 

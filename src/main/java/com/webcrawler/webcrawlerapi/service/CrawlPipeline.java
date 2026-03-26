@@ -37,4 +37,10 @@ public class CrawlPipeline {
     public List<PageContent> getAll() {
         return jsonStorage.getAll();
     }
+
+    public PageContent delete(UUID uuid) { return jsonStorage.delete(uuid); }
+
+    public void deleteAll() {
+        jsonStorage.deleteAll();
+    }
 }
