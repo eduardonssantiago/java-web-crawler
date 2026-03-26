@@ -3,12 +3,13 @@ package com.webcrawler.webcrawlerapi.controller;
 import com.webcrawler.webcrawlerapi.model.CrawlRequest;
 import com.webcrawler.webcrawlerapi.model.PageContent;
 import com.webcrawler.webcrawlerapi.service.CrawlPipeline;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 @RestController
 public class CrawlerController {
@@ -28,4 +29,33 @@ public class CrawlerController {
             return ResponseEntity.unprocessableEntity().body(Map.of("error", e.getMessage()));
         }
     }
+
+    @GetMapping("/crawl/{uuid}")
+    public ResponseEntity<?> crawl(@PathVariable("uuid") String uuid) {
+
+        try {
+            UUID uuidObj = UUID.fromString(uuid);
+            PageContent result = crawlPipeline.get(uuidObj);
+
+            if (result == null) {
+                return ResponseEntity.notFound().build();
+            } else {
+                return ResponseEntity.ok(result);
+            }
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(Map.of("error", "UUID invalido"));
+        }
+
+    }
+
+    @GetMapping("/crawl")
+    public ResponseEntity<?> getAll() {
+        try {
+            List<PageContent> results = crawlPipeline.getAll();
+            return ResponseEntity.ok(results);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(Map.of("error", e.getMessage()));
+        }
+    }
+
 }

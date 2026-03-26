@@ -8,6 +8,9 @@ import com.webcrawler.webcrawlerapi.storage.JsonStorage;
 import org.jsoup.nodes.Document;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.UUID;
+
 @Service
 public class CrawlPipeline {
 
@@ -25,5 +28,13 @@ public class CrawlPipeline {
         PageContent pageContent = normalizer.transformInPage(document);
         jsonStorage.save(pageContent);
         return pageContent;
+    }
+
+    public PageContent get(UUID uuid) {
+        return jsonStorage.get(uuid);
+    }
+
+    public List<PageContent> getAll() {
+        return jsonStorage.getAll();
     }
 }
