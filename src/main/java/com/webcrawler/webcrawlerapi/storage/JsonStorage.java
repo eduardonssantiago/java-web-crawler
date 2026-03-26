@@ -1,7 +1,10 @@
+package com.webcrawler.webcrawlerapi.storage;
+
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonPrimitive;
 import com.google.gson.JsonSerializer;
+import com.webcrawler.webcrawlerapi.model.PageContent;
 
 import java.nio.file.Files;
 import java.nio.file.Path;

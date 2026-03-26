@@ -1,3 +1,5 @@
+package com.webcrawler.webcrawlerapi.model;
+
 import java.time.Instant;
 import java.util.UUID;
 

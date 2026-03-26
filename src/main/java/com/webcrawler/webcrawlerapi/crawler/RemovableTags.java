@@ -1,3 +1,5 @@
+package com.webcrawler.webcrawlerapi.crawler;
+
 public final class RemovableTags {
 
     private RemovableTags() {}
@@ -19,4 +21,3 @@ public final class RemovableTags {
             "[class*=modal]", "[class*=overlay]", "[aria-hidden=true]"
     );
 }
-

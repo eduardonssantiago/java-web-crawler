@@ -1,3 +1,6 @@
+package com.webcrawler.webcrawlerapi.crawler;
+
+import com.webcrawler.webcrawlerapi.model.PageContent;
 import org.jsoup.nodes.Document;
 
 import java.net.URI;
